@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tisha May Tizon — Product Operations & Scrum Lead</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ==========================================================================
+       YEAR 2150 SOLO PORTFOLIO SYSTEM — TISHA MAY TIZON
+       ========================================================================== */
+    :root {
+      --bg-void: #05070B;
+      --bg-surface: #0B0E14;
+      --bg-card: #121722;
+      --bg-card-hover: #182030;
+      
+      --magenta: #F600F6;
+      --magenta-glow: rgba(246, 0, 246, 0.18);
+      --magenta-border: rgba(246, 0, 246, 0.35);
+      
+      --cyan: #00F0FF;
+      --cyan-glow: rgba(0, 240, 255, 0.12);
+      
+      --text-main: #F1F5F9;
+      --text-muted: #8A99AD;
+      --text-dark: #475569;
+      
+      --border: #1E2638;
+      --border-bright: #2E3B54;
+      
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-void);
+      color: var(--text-main);
+      font-family: var(--font-body);
+    }
+
+    /* Ambient HUD Background Elements */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-sphere-magenta {
+      position: fixed;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--magenta-glow) 0%, rgba(0,0,0,0) 70%);
+      top: -200px;
+      right: -100px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(5, 7, 11, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+
+    .logo {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1.35rem;
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-tag {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      background: rgba(246, 0, 246, 0.08);
+      border: 1px solid var(--magenta-border);
+      border-radius: 6px;
+      color: var(--magenta);
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--magenta);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(246, 0, 246, 0.08);
+      border: 1px solid var(--magenta-border);
+      border-radius: 20px;
+      color: var(--magenta);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      margin-bottom: 24px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--magenta);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--magenta);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .hero-title-group .greeting {
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: 3.4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      background: linear-gradient(180deg, #FFFFFF 0%, #A0AEC0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--magenta);
+      font-weight: 600;
+      margin-top: 10px;
+      font-family: var(--font-head);
+    }
+
+    .hero-desc {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 24px 0 36px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--magenta) 0%, #C000C0 100%);
+      color: #FFF;
+      box-shadow: 0 0 25px var(--magenta-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(246, 0, 246, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--magenta);
+      color: var(--magenta);
+      transform: translateY(-2px);
+    }
+
+    /* HUD Card Right Panel */
+    .hud-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      border-top: 3px solid var(--magenta);
+    }
+
+    .hud-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hud-detail-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 0.9rem;
+    }
+
+    .hud-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-muted);
+    }
+
+    .hud-detail-item i {
+      color: var(--magenta);
+      width: 18px;
+      text-align: center;
+    }
+
+    .hud-detail-item a {
+      color: var(--text-main);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .hud-detail-item a:hover {
+      color: var(--magenta);
+    }
+
+    .hud-achievements-mini {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .hud-achievements-mini-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--magenta);
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-chip {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: rgba(246, 0, 246, 0.08);
+      border: 1px solid var(--magenta-border);
+      color: var(--text-main);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    /* Section Component */
+    section {
+      margin-bottom: 72px;
+    }
+
+    .section-head {
+      margin-bottom: 40px;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      color: var(--magenta);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      margin-bottom: 90px;
+    }
+
+    .skills-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+    }
+
+    .skills-card h3 {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-main);
+    }
+
+    .skills-card h3 i {
+      color: var(--magenta);
+    }
+
+    .tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag-item {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-bright);
+      border-radius: 6px;
+      color: var(--text-main);
+    }
+
+    /* Experience Timeline */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-bottom: 100px;
+    }
+
+    #projects {
+      margin-top: 12px;
+    }
+
+    #education {
+      margin-top: 8px;
+    }
+
+    .exp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
+
+    .exp-card:hover {
+      border-color: var(--magenta-border);
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .exp-role {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .exp-company {
+      font-size: 1rem;
+      color: var(--magenta);
+      font-weight: 500;
+    }
+
+    .exp-date-badge {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-bright);
+      padding: 4px 12px;
+      border-radius: 20px;
+      color: var(--text-muted);
+    }
+
+    .exp-bullets {
+      list-style: none;
+      margin-top: 14px;
+    }
+
+    .exp-bullets li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .exp-bullets li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: var(--magenta);
+      font-weight: bold;
+    }
+
+    /* =====================================================
+      PROJECT IMAGES
+      ===================================================== */
+
+    .project-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #0b0b12;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.45s ease;
+    }
+
+    .project-card:hover .project-image img {
+      transform: scale(1.03);
+    }
+
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 55%,
+        rgba(0, 0, 0, 0.35) 100%
+      );
+    }
+
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.55);
+      padding: 20px;
+    }
+
+    .image-placeholder i {
+      font-size: 32px;
+    }
+
+    .image-placeholder span {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* =====================================================
+      RESPONSIVE PROJECT GRID
+      ===================================================== */
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 12px;
+    }
+
+    .project-card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(18, 23, 34, 0.96), rgba(10, 15, 22, 0.98));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--magenta), rgba(246, 0, 246, 0.15), transparent);
+      opacity: 0.9;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--magenta-border);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(246, 0, 246, 0.12);
+    }
+
+    .project-card.flagship {
+      border-color: rgba(246, 0, 246, 0.3);
+    }
+
+    /* =====================================================
+      PROJECT CONTENT
+      ===================================================== */
+
+    .project-content {
+      min-width: 0;
+      padding: 22px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .project-category {
+      font-family: var(--font-mono);
+      color: var(--magenta);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .project-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .project-title {
+      margin: 0;
+      font-family: var(--font-head);
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      overflow-wrap: anywhere;
+    }
+
+    .project-badge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      border: 1px solid var(--magenta-border);
+      border-radius: 999px;
+      background: rgba(246, 0, 246, 0.08);
+      color: var(--magenta);
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .project-desc,
+    .project-result {
+      overflow-wrap: break-word;
+    }
+
+    .project-desc {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.96rem;
+      line-height: 1.7;
+    }
+
+    .project-result {
+      margin: 0;
+      color: var(--text-main);
+      font-size: 0.94rem;
+      line-height: 1.7;
+    }
+
+    .project-result strong {
+      color: var(--magenta);
+      font-family: var(--font-mono);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-bright);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
+
+    /* =====================================================
+      TABLET
+      ===================================================== */
+
+    @media (max-width: 900px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card.flagship {
+        grid-column: auto;
+      }
+    }
+
+
+    /* =====================================================
+      MOBILE
+      ===================================================== */
+
+    @media (max-width: 600px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .project-image {
+        aspect-ratio: 16 / 10;
+      }
+
+      .project-card-header {
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .project-badge {
+        flex-shrink: 0;
+      }
+
+      .duo-contributions {
+        grid-template-columns: 1fr;
+      }
+
+      .tags {
+        gap: 6px;
+      }
+    }
+
+    /* Education & Certs Split */
+    .edu-cert-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-bottom: 100px;
+    }
+
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+    }
+
+    .info-card h3 {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-main);
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-card h3 i {
+      color: var(--magenta);
+    }
+
+    .edu-item {
+      margin-bottom: 24px;
+    }
+
+    .edu-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .edu-degree {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .edu-school {
+      font-size: 0.9rem;
+      color: var(--magenta);
+      margin-top: 2px;
+    }
+
+    .edu-year {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .edu-bullets {
+      list-style: none;
+    }
+
+    .edu-bullets li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .edu-bullets li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--text-dark);
+    }
+
+    .cert-list {
+      list-style: none;
+    }
+
+    .cert-item {
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .cert-item:last-child {
+      border-bottom: none;
+    }
+
+    .cert-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .cert-issuer {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* References Grid */
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 90px;
+    }
+
+    .ref-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .ref-name {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .ref-title {
+      font-size: 0.88rem;
+      color: var(--magenta);
+      margin-bottom: 8px;
+    }
+
+    .ref-phone {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      font-family: var(--font-mono);
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 40px 0;
+      }
+      .skills-grid, .edu-cert-grid, .ref-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Backgrounds -->
+  <div class="bg-grid"></div>
+  <div class="glow-sphere-magenta"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="logo">
+          <i class="fa-solid fa-layer-group" style="color: var(--magenta);"></i>
+          <span>TISHA MAY TIZON</span>
+          <span class="logo-tag">PRODUCT OPS</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#about">Overview</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#education">Education</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero Section -->
+    <section id="about" class="hero">
+      <div class="hero-left">
+        <div class="status-badge">
+          <div class="pulse-dot"></div>
+          AVAILABLE FOR PRODUCT & SCRUM ROLES
+        </div>
+        
+        <div class="hero-title-group">
+          <span class="greeting">// Product Operations & Scrum Lead</span>
+          <h1>TISHA MAY TIZON</h1>
+          <div class="hero-subtitle">UX/UI Specialist, Scrum Lead & Quality Assurance</div>
+        </div>
+
+        <p class="hero-desc">
+          Versatile and detail-oriented professional with extensive experience across product design, product operations, Scrum coordination, business analysis, and quality assurance. Skilled in driving cross-functional team collaboration, refining requirements, conducting rigorous E2E testing, and delivering high-quality software releases.
+        </p>
+
+        <div class="hero-cta">
+          <a href="mailto:tishtizon@gmail.com" class="btn btn-primary">
+            <i class="fa-solid fa-envelope"></i> Contact Tish
+          </a>
+          <a href="#experience" class="btn btn-secondary">
+            <i class="fa-solid fa-briefcase"></i> View Career Experience
+          </a>
+        </div>
+      </div>
+
+      <!-- Right HUD Panel -->
+      <div class="hud-card">
+        <div class="hud-header">
+          <span><i class="fa-solid fa-user-gear"></i> USER_PROFILE_MATRIX</span>
+          <span>BAC-PHL</span>
+        </div>
+        
+        <div class="hud-detail-group">
+          <div class="hud-detail-item">
+            <i class="fa-solid fa-envelope"></i>
+            <a href="mailto:tishtizon@gmail.com">tishtizon@gmail.com</a>
+          </div>
+          <div class="hud-detail-item">
+            <i class="fa-solid fa-phone"></i>
+            <a href="tel:+639196134817">+63 919 613 4817</a>
+          </div>
+          <div class="hud-detail-item">
+            <i class="fa-brands fa-linkedin"></i>
+            <a href="https://linkedin.com/in/tisha-may-tizon-1b477a2a3" target="_blank">LinkedIn Profile</a>
+          </div>
+          <div class="hud-detail-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Bacolod City, Philippines</span>
+          </div>
+        </div>
+
+        <div class="hud-achievements-mini">
+          <div class="hud-achievements-mini-title">// Key Achievements</div>
+          <span class="badge-chip"><i class="fa-solid fa-award" style="color:var(--magenta)"></i> Best in Customer Experience</span>
+          <span class="badge-chip"><i class="fa-solid fa-check-double" style="color:var(--magenta)"></i> Best in Right First Time</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <div class="section-head">
+        <span class="section-tag">// COMPETENCIES</span>
+        <h2 class="section-title">Core & Technical Skillset</h2>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skills-card">
+          <h3><i class="fa-solid fa-list-check"></i> Core Skills</h3>
+          <div class="tags-list">
+            <span class="tag-item">UX/UI Design</span>
+            <span class="tag-item">Product Operations</span>
+            <span class="tag-item">Scrum & Agile</span>
+            <span class="tag-item">Project Coordination</span>
+            <span class="tag-item">Requirements Analysis</span>
+            <span class="tag-item">Problem Solving</span>
+            <span class="tag-item">Process Improvement</span>
+            <span class="tag-item">Quality Assurance & Testing</span>
+            <span class="tag-item">Bug Identification & Reporting</span>
+            <span class="tag-item">Cross-Functional Collaboration</span>
+            <span class="tag-item">Communication</span>
+            <span class="tag-item">Time Management</span>
+            <span class="tag-item">Attention to Detail</span>
+          </div>
+        </div>
+
+        <div class="skills-card">
+          <h3><i class="fa-solid fa-laptop-code"></i> Technical Skills</h3>
+          <div class="tags-list">
+            <span class="tag-item">REST API / API Testing</span>
+            <span class="tag-item">UI/UX Testing</span>
+            <span class="tag-item">Functional Testing</span>
+            <span class="tag-item">End-to-End Testing</span>
+            <span class="tag-item">Regression Testing</span>
+            <span class="tag-item">Bug Tracking & Reporting</span>
+            <span class="tag-item">Technical Documentation</span>
+            <span class="tag-item">Front End Development</span>
+            <span class="tag-item">Wireframing</span>
+            <span class="tag-item">Prototyping</span>
+            <span class="tag-item">PHP / Laravel / Bootstrap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Experience Section -->
+    <section id="experience">
+      <div class="section-head">
+        <span class="section-tag">// TRACK RECORD</span>
+        <h2 class="section-title">Professional Experience</h2>
+      </div>
+
+      <div class="experience-list">
+
+        <!-- Role 1 -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Product Operations & Scrum Lead</div>
+              <div class="exp-company">Gables & Grove Painting | TIKRR</div>
+            </div>
+            <span class="exp-date-badge">06/2026 – Present | Remote</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Coordinate sprint planning, Jira workflows, task tracking, and cross-functional product activities.</li>
+            <li>Support product development through requirements coordination, testing, issue tracking, and release activities.</li>
+          </ul>
+        </div>
+
+        <!-- Role 2 -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Product Designer</div>
+              <div class="exp-company">Gables & Grove Painting | TIKRR</div>
+            </div>
+            <span class="exp-date-badge">06/2025 – 06/2026 | Remote</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Designed and improved UX/UI, workflows, and product experiences based on business and user needs.</li>
+            <li>Conducted product testing to identify usability, UI, and functional issues, supporting continuous product improvements.</li>
+          </ul>
+        </div>
+
+        <!-- Role 3 -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Systems Analyst</div>
+              <div class="exp-company">Core Support Hub</div>
+            </div>
+            <span class="exp-date-badge">02/2025 – 04/2025 | Bacolod, Philippines</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Promoted from Business Analyst to support system design, development coordination, and quality assurance.</li>
+            <li>Managed tasks, tracked project progress, and coordinated with development teams to support smooth project delivery.</li>
+          </ul>
+        </div>
+
+        <!-- Role 4 -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Business Analyst</div>
+              <div class="exp-company">Core Support Hub</div>
+            </div>
+            <span class="exp-date-badge">06/2024 – 02/2025 | Bacolod, Philippines</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Analyzed business and system requirements and supported development through documentation, testing, and process improvements.</li>
+            <li>Collaborated with technical teams on system functionality and supported front-end development using PHP, Laravel, and Bootstrap.</li>
+          </ul>
+        </div>
+
+        <!-- Role 5 -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Customer Care Representative</div>
+              <div class="exp-company">Panasiatic Solutions</div>
+            </div>
+            <span class="exp-date-badge">12/2021 – 05/2025 | Bacolod, Philippines</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Handled high-volume inbound customer calls, resolving concerns with a focus on first-contact resolution.</li>
+            <li>Achieved strong performance across customer satisfaction, call quality, and adherence metrics.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  <!-- =====================================================
+       PROJECTS
+       ===================================================== -->
+  
+  <section id="projects">
+
+    <div class="section-head">
+      <span class="section-tag">// PORTFOLIO</span>
+      <h2 class="section-title">Key Projects Contributed</h2>
+    </div>
+
+    <div class="projects-grid">
+
+      <article class="project-card flagship">
+        <div class="project-image">
+          <img src="images/tikrr.png" alt="TIKRR AI Operating System interface" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+          <div class="image-placeholder" style="display:none;">
+            <i class="fa-solid fa-image"></i>
+            <span>Add TIKRR screenshot<br>images/tikrr.png</span>
+          </div>
+
+          <div class="image-overlay"></div>
+        </div>
+
+        <div class="project-content">
+          <div class="project-category">FLAGSHIP PRODUCT</div>
+
+          <div class="project-card-header">
+            <h3 class="project-title">TIKRR — AI Operating System for Painting Contractors</h3>
+            <span class="project-badge">FLAGSHIP</span>
+          </div>
+
+          <p class="project-desc">
+            AI-powered platform that streamlines sales, estimating, production, media, and business operations for painting contractors. Supported product development, QA, and Agile delivery through beta launch and production release.
+          </p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">
+          <img src="images/pos-inventory.png" alt="Hardware Store POS and Inventory System" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+          <div class="image-placeholder" style="display:none;">
+            <i class="fa-solid fa-image"></i>
+            <span>Add POS screenshot<br>images/pos-inventory.png</span>
+          </div>
+
+          <div class="image-overlay"></div>
+        </div>
+
+        <div class="project-content">
+          <div class="project-category">RETAIL MANAGEMENT</div>
+
+          <div class="project-card-header">
+            <h3 class="project-title">Hardware Store POS & Inventory System</h3>
+          </div>
+
+          <p class="project-desc">
+            Point-of-sale system for managing sales, product inventory, stock levels, and store operations. Streamlined checkout and inventory tracking through a centralized retail management system.
+          </p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">
+          <img src="images/raffle-system.png" alt="Raffle Event Management System" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+          <div class="image-placeholder" style="display:none;">
+            <i class="fa-solid fa-image"></i>
+            <span>Add raffle system screenshot<br>images/raffle-system.png</span>
+          </div>
+
+          <div class="image-overlay"></div>
+        </div>
+
+        <div class="project-content">
+          <div class="project-category">EVENT MANAGEMENT</div>
+
+          <div class="project-card-header">
+            <h3 class="project-title">Raffle Event Management System — Oil &amp; Energy Company</h3>
+          </div>
+
+          <p class="project-desc">
+            Laravel and MySQL-based system for managing company events, raffles, customer records, and participants. Streamlined event operations while improving customer tracking.
+          </p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">
+          <img src="images/orangeshire.png" alt="OrangeShire Workspace Management Platform" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+          <div class="image-placeholder" style="display:none;">
+            <i class="fa-solid fa-image"></i>
+            <span>Add OrangeShire screenshot<br>images/orangeshire.png</span>
+          </div>
+
+          <div class="image-overlay"></div>
+        </div>
+
+        <div class="project-content">
+          <div class="project-category">WORKSPACE MANAGEMENT</div>
+
+          <div class="project-card-header">
+            <h3 class="project-title">OrangeShire — Workspace Management Platform</h3>
+          </div>
+
+          <p class="project-desc">
+            Laravel-based platform for managing hot desks, fixed workspaces, room reservations, and administrative operations. Centralized workspace booking coordination.
+          </p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">
+          <img src="images/jobportal.png" alt="JobPortal Recruitment and Job Matching Platform" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+          <div class="image-placeholder" style="display:none;">
+            <i class="fa-solid fa-image"></i>
+            <span>Add JobPortal screenshot<br>images/jobportal.png</span>
+          </div>
+
+          <div class="image-overlay"></div>
+        </div>
+
+        <div class="project-content">
+          <div class="project-category">RECRUITMENT PLATFORM</div>
+
+          <div class="project-card-header">
+            <h3 class="project-title">JobPortal — Recruitment &amp; Job Matching Platform</h3>
+          </div>
+
+          <p class="project-desc">
+            Laravel-based job portal connecting jobseekers and agencies, with account management, job listings, and skill assessment features.
+          </p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">
+          <img src="images/sgmis.png" alt="SGMIS Student Government Information System" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+          <div class="image-placeholder" style="display:none;">
+            <i class="fa-solid fa-image"></i>
+            <span>Add SGMIS screenshot<br>images/sgmis.png</span>
+          </div>
+
+          <div class="image-overlay"></div>
+        </div>
+
+        <div class="project-content">
+          <div class="project-category">EDUCATION / GOVERNMENT</div>
+
+          <div class="project-card-header">
+            <h3 class="project-title">SGMIS — Student Government Information System</h3>
+          </div>
+
+          <p class="project-desc">
+            Management system for CHMSU student government, centralizing student records, activities, meetings, events, and organizational workflows.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+    <!-- Education, Certifications & Achievements -->
+    <section id="education">
+      <div class="section-head">
+        <span class="section-tag">// BACKGROUND</span>
+        <h2 class="section-title">Education & Credentials</h2>
+      </div>
+
+      <div class="edu-cert-grid">
+        <!-- Education Card -->
+        <div class="info-card">
+          <h3><i class="fa-solid fa-graduation-cap"></i> Education</h3>
+          
+          <div class="edu-item">
+            <div class="edu-degree">BS in Information Systems</div>
+            <div class="edu-school">Carlos Hilado Memorial State University</div>
+            <div class="edu-year">2020 – 2024</div>
+            <ul class="edu-bullets">
+              <li>Dean's List</li>
+              <li>Project Manager for capstone project, leading development and ensuring alignment with beneficiaries' needs</li>
+              <li>Contributed to system design, development, and testing</li>
+            </ul>
+          </div>
+
+          <div class="edu-item">
+            <div class="edu-degree">IT in Mobile App & Web Development (ITMAWD)</div>
+            <div class="edu-school">STI West Negros University</div>
+            <div class="edu-year">2018 – 2020</div>
+            <ul class="edu-bullets">
+              <li>Graduated with Honors</li>
+              <li>Led a mobile app and website development project as Project Manager</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Certifications & Achievements Card -->
+        <div class="info-card">
+          <h3><i class="fa-solid fa-certificate"></i> Certifications & Honors</h3>
+          <ul class="cert-list">
+            <li class="cert-item">
+              <div class="cert-name">Advanced Cyber Security – Threats and Governance</div>
+              <div class="cert-issuer">Great Learning Academy</div>
+            </li>
+            <li class="cert-item">
+              <div class="cert-name">Marketing & Retail Analytics</div>
+              <div class="cert-issuer">Great Learning Academy</div>
+            </li>
+            <li class="cert-item">
+              <div class="cert-name">Advanced SQL</div>
+              <div class="cert-issuer">LinkedIn Learning</div>
+            </li>
+            <li class="cert-item">
+              <div class="cert-name">Introduction to Artificial Intelligence</div>
+              <div class="cert-issuer">LinkedIn Learning</div>
+            </li>
+            <li class="cert-item">
+              <div class="cert-name">Developing Your Emotional Intelligence</div>
+              <div class="cert-issuer">LinkedIn Learning</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="section-head">
+        <span class="section-tag">// CONTACT</span>
+        <h2 class="section-title">Let’s Connect</h2>
+      </div>
+
+      <div class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-name">Email</div>
+          <div class="ref-title">tishamaytizon@gmail.com</div>
+          <div class="ref-phone"><i class="fa-solid fa-envelope" style="color:var(--magenta)"></i> Available for product, operations, and design opportunities</div>
+        </div>
+
+        <div class="ref-card">
+          <div class="ref-name">Location</div>
+          <div class="ref-title">Bacolod, Philippines</div>
+          <div class="ref-phone"><i class="fa-solid fa-location-dot" style="color:var(--magenta)"></i> Open to remote and hybrid collaboration</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      &copy; 2026 Tisha May Tizon. Product Operations & Scrum Lead Portfolio.
+    </div>
+  </footer>
+
+</body>
+</html>
